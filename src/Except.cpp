@@ -1,4 +1,4 @@
-#include "Except.h"
+#include "Except.hpp"
 
 // Define a new exception class that inherits from
 // std::exception
@@ -13,14 +13,14 @@ const char* Exception::what() const throw()
     return message.c_str();
 }
 
-// // Usage
+// Usage
 // int main()
 // {
 //     try {
 //         // Throw our custom exception
-//         throw MyException("This is a custom exception");
+//         throw Exception("This is a custom exception");
 //     }
-//     catch (MyException& e) {
+//     catch (Exception& e) {
 //         // Catch and handle our custom exception
 //         cout << "Caught an exception: " << e.what() << endl;
 //     }

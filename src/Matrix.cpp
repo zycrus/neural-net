@@ -1,5 +1,6 @@
-#include "Matrix.h"
+#include "Matrix.hpp"
 #include <iostream>
+
 
 Matrix::Matrix(int _row, int _col){
     rows = _row;
@@ -15,12 +16,17 @@ Matrix::Matrix(int _row, int _col){
 }
 
 void Matrix::UnitMatrix(){
-    if (rows != cols) return;
-    for (int i = 0; i < rows; i++){
-        for (int j = 0; j < cols; j++){
-            if (i == j) elements.at(i).at(j) = 1;
-            else elements.at(i).at(j) = 0;
+    try{
+        if (rows != cols) throw Exception("Matrix is not a square matrix.");
+        for (int i = 0; i < rows; i++){
+            for (int j = 0; j < cols; j++){
+                if (i == j) elements.at(i).at(j) = 1;
+                else elements.at(i).at(j) = 0;
+            }
         }
+    }
+    catch (Exception& e){
+        cout << "Error Generating Unit Matrix: " << e.what() << endl;
     }
 }
 
@@ -92,37 +98,4 @@ Matrix MatrixProduct(Matrix _m1, Matrix _m2){
         }
     }
     return res;
-}
-
-int main() {
-    // Write C++ code here
-    
-
-    cout << "M1:" << endl;
-
-    Matrix m1 = Matrix(3, 5);
-
-    m1.SetElement(1, 0, 10);
-    m1.SetElement(1, 2, 20);
-    m1.SetElement(0, 1, 50);
-    m1.SetElement(0, 3, 12);
-    m1.SetElement(0, 4, 20);
-    m1.PrintMatrix();
-
-    cout << "\nM2:" << endl;
-
-    Matrix m2 = Matrix(5,2);
-    m2.SetElement(0, 0, 1);
-    m2.SetElement(1, 0, 1);
-    m2.SetElement(0, 1, 4);
-    m2.SetElement(2, 0, 5);
-    m2.SetElement(4, 0, 23);
-    m2.PrintMatrix();
-
-    
-    cout << "\nMatrix Product:" << endl;
-    Matrix dot_matrix = MatrixProduct(m1, m2);
-    dot_matrix.PrintMatrix();
-
-    return 0;
 }
