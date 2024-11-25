@@ -1,6 +1,9 @@
+#ifndef MATRIX_HPP
+#define MATRIX_HPP
+
 #pragma once
 #include <vector>
-#include "../Exception/Except.hpp"
+#include "../include/Except.hpp"
 
 using namespace std;
 
@@ -11,7 +14,7 @@ public:
     int rows, cols;
     
     Matrix(int _row, int _col);
-    void UnitMatrix();
+    bool UnitMatrix();
     void SetElement(int _row, int _col, int _val);
     vector<int> GetRow(int _row);
     vector<int> GetColumn(int _col);
@@ -27,3 +30,5 @@ Matrix MatrixProduct(Matrix _m1, Matrix _m2);
 Matrix MatrixAdd(Matrix _m1, Matrix _m2);
 Matrix MatrixSubtract(Matrix _m1, Matrix _m2);
 Matrix ScalarMultiply(int s, Matrix _m);
+
+#endif

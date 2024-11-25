@@ -1,4 +1,4 @@
-#include "Matrix.hpp"
+#include "../include/Matrix.hpp"
 #include <iostream>
 
 
@@ -15,7 +15,7 @@ Matrix::Matrix(int _row, int _col){
     }
 }
 
-void Matrix::UnitMatrix(){
+bool Matrix::UnitMatrix(){
     try{
         if (rows != cols) throw Exception("Matrix is not a square matrix.");
         for (int i = 0; i < rows; i++){
@@ -24,9 +24,11 @@ void Matrix::UnitMatrix(){
                 else elements.at(i).at(j) = 0;
             }
         }
+        return true;
     }
     catch (Exception& e){
         cout << "Error Generating Unit Matrix: " << e.what() << endl;
+        return false;
     }
 }
 

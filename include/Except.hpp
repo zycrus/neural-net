@@ -1,3 +1,6 @@
+#ifndef EXCEPT_HPP
+#define EXCEPT_HPP
+
 #pragma once
 
 #include <exception>
@@ -20,3 +23,5 @@ public:
     // Override the what() method to return our message
     const char* what() const throw();
 };
+
+#endif
