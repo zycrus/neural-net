@@ -1,8 +1,6 @@
 #include "Matrix.h"
 #include <iostream>
 
-//Matrix 01 branch
-
 Matrix::Matrix(int _row, int _col){
     rows = _row;
     cols = _col;
