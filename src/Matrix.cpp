@@ -32,8 +32,16 @@ bool Matrix::UnitMatrix(){
     }
 }
 
-void Matrix::SetElement(int _row, int _col, int _val){
-    elements.at(_row).at(_col) = _val;
+bool Matrix::SetElement(int _row, int _col, int _val){
+    try{
+        if (_row >= rows || _col >= cols) throw Exception("Specified Row and Column exceeds the Matrix size.");
+        elements.at(_row).at(_col) = _val;
+        return true;
+    }
+    catch (Exception& e){
+        cout << "Error Editing Element: " << e.what() << endl;
+        return false;
+    }
 }
 
 vector<int> Matrix::GetRow(int _row){

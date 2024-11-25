@@ -15,7 +15,7 @@ public:
     
     Matrix(int _row, int _col);
     bool UnitMatrix();
-    void SetElement(int _row, int _col, int _val);
+    bool SetElement(int _row, int _col, int _val);
     vector<int> GetRow(int _row);
     vector<int> GetColumn(int _col);
     void PrintRow(int _row);
