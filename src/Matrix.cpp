@@ -99,6 +99,7 @@ int VectorDot(vector<int> _v1, vector<int> _v2){
 
     return res;
 }
+
 Matrix MatrixProduct(Matrix _m1, Matrix _m2){
     Matrix res = Matrix(_m1.rows, _m2.cols);
 
@@ -108,4 +109,42 @@ Matrix MatrixProduct(Matrix _m1, Matrix _m2){
         }
     }
     return res;
+}
+
+Matrix MatrixAdd(Matrix _m1, Matrix _m2){
+    try{
+        if (_m1.rows != _m2.rows || _m1.cols != _m2.cols)
+            throw Exception("Matrix size does not match.");
+
+        Matrix res = Matrix(_m1.rows, _m1.cols);
+        for (int i = 0; i < _m1.rows; i++){
+            for (int j = 0; j < _m1.cols; j++){
+                res.elements.at(i).at(j) =  _m1.elements.at(i).at(j) +  _m2.elements.at(i).at(j);
+            }
+        }
+        return res;
+    }
+    catch (Exception& e){
+        cout << "Cannot Add Matrices: " << e.what() << endl;
+    }
+    return Matrix(0, 0);
+}
+
+Matrix MatrixSubtract(Matrix _m1, Matrix _m2){
+    try{
+        if (_m1.rows != _m2.rows || _m1.cols != _m2.cols)
+            throw Exception("Matrix size does not match.");
+
+        Matrix res = Matrix(_m1.rows, _m1.cols);
+        for (int i = 0; i < _m1.rows; i++){
+            for (int j = 0; j < _m1.cols; j++){
+                res.elements.at(i).at(j) =  _m1.elements.at(i).at(j) -  _m2.elements.at(i).at(j);
+            }
+        }
+        return res;
+    }
+    catch (Exception& e){
+        cout << "Cannot Subtract Matrices: " << e.what() << endl;
+    }
+    return Matrix(0, 0);
 }
