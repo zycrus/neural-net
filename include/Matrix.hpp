@@ -10,14 +10,14 @@ using namespace std;
 
 class Matrix{
 public:
-    vector<vector<int>> elements;
+    vector<vector<float>> elements;
     int rows, cols;
     
     Matrix(int _row, int _col);
     bool UnitMatrix();
-    bool SetElement(int _row, int _col, int _val);
-    vector<int> GetRow(int _row);
-    vector<int> GetColumn(int _col);
+    bool SetElement(int _row, int _col, float _val);
+    vector<float> GetRow(int _row);
+    vector<float> GetColumn(int _col);
     void PrintRow(int _row);
     void PrintColumn(int _col);
     void PrintMatrix();
@@ -25,10 +25,10 @@ public:
 };
 
 //Operations
-int DotVector(vector<int> _v1, vector<int> _v2);
+float DotVector(vector<float> _v1, vector<float> _v2);
 Matrix MatrixProduct(Matrix _m1, Matrix _m2);
 Matrix MatrixAdd(Matrix _m1, Matrix _m2);
 Matrix MatrixSubtract(Matrix _m1, Matrix _m2);
-Matrix ScalarMultiply(int s, Matrix _m);
+Matrix ScalarMultiply(float _s, Matrix _m);
 
 #endif

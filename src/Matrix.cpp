@@ -7,7 +7,7 @@ Matrix::Matrix(int _row, int _col){
     cols = _col;
     
     for (int i = 0; i < rows; i++){
-        vector<int> temp;
+        vector<float> temp;
         elements.insert(elements.end(), temp);
         for (int j = 0; j < cols; j++){
             elements.at(i).insert(elements.at(i).end(), 0);
@@ -32,7 +32,7 @@ bool Matrix::UnitMatrix(){
     }
 }
 
-bool Matrix::SetElement(int _row, int _col, int _val){
+bool Matrix::SetElement(int _row, int _col, float _val){
     try{
         if (_row >= rows || _col >= cols) throw Exception("Specified Row and Column exceeds the Matrix size.");
         elements.at(_row).at(_col) = _val;
@@ -44,12 +44,12 @@ bool Matrix::SetElement(int _row, int _col, int _val){
     }
 }
 
-vector<int> Matrix::GetRow(int _row){
+vector<float> Matrix::GetRow(int _row){
     return elements.at(_row);
 }
 
-vector<int> Matrix::GetColumn(int _col){
-    vector<int> res;
+vector<float> Matrix::GetColumn(int _col){
+    vector<float> res;
     for (int i = 0; i < rows; i++){
         res.insert(res.end(), elements.at(i).at(_col));
     }
@@ -90,8 +90,8 @@ Matrix Matrix::Transpose(){
     return res;
 }
 
-int VectorDot(vector<int> _v1, vector<int> _v2){
-    int res = 0;
+float VectorDot(vector<float> _v1, vector<float> _v2){
+    float res = 0;
 
     for (int i = 0; i < (int)_v1.size(); i++){
         res += _v1[i] * _v2[i];
@@ -147,4 +147,14 @@ Matrix MatrixSubtract(Matrix _m1, Matrix _m2){
         cout << "Cannot Subtract Matrices: " << e.what() << endl;
     }
     return Matrix(0, 0);
+}
+
+Matrix ScalarMultiply(float _s, Matrix _m){
+    Matrix res = Matrix(_m.rows, _m.cols);
+    for (int i = 0; i < _m.rows; i++){
+        for (int j = 0; j < _m.cols; j++){
+            res.elements.at(i).at(j) =  _m.elements.at(i).at(j) * _s;
+        }
+    }
+    return res;
 }
