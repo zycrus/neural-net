@@ -22,6 +22,9 @@ public:
     void PrintColumn(int _col);
     void PrintMatrix();
     Matrix Transpose();
+
+    bool LoadFromFile(char* _file);
+    bool SaveToFile(char* _file);
 };
 
 //Operations
@@ -30,5 +33,6 @@ Matrix MatrixProduct(Matrix _m1, Matrix _m2);
 Matrix MatrixAdd(Matrix _m1, Matrix _m2);
 Matrix MatrixSubtract(Matrix _m1, Matrix _m2);
 Matrix ScalarMultiply(float _s, Matrix _m);
+
 
 #endif

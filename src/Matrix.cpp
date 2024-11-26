@@ -90,6 +90,18 @@ Matrix Matrix::Transpose(){
     return res;
 }
 
+bool LoadFromFile(char* _file){
+    return false;
+}
+
+bool SaveToFile(char* _file){
+    return false;
+}
+
+
+
+
+
 float VectorDot(vector<float> _v1, vector<float> _v2){
     float res = 0;
 
