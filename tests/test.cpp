@@ -2,23 +2,12 @@
 #include "..\include\Except.hpp"
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 int main(){
-    cout << "==========================" << endl;
+    Matrix mat = Matrix(0,0);
 
-    Matrix mat1 = Matrix(3, 3);
-    Matrix mat2 = Matrix(3, 3);
-
-    if(mat1.UnitMatrix()) mat1.PrintMatrix();
-    cout << endl;
-    if(mat2.UnitMatrix()) mat2.PrintMatrix();
-    cout << endl;
-
-    cout << "SCALAR" << endl;
-
-    MultiplyByScalar(0.3, mat1).PrintMatrix();
-
-    return 0;
+    mat.LoadFromFile("test.csv");
 }

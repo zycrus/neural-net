@@ -23,8 +23,8 @@ public:
     void PrintMatrix();
     Matrix Transpose();
 
-    bool LoadFromFile(char* _file);
-    bool SaveToFile(char* _file);
+    bool LoadFromFile(string _file);
+    bool SaveToFile(string _file);
 };
 
 //Operations

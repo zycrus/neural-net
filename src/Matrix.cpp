@@ -1,5 +1,7 @@
 #include "../include/Matrix.hpp"
 #include <iostream>
+#include <fstream>
+#include <string>
 
 
 Matrix::Matrix(int _row, int _col){
@@ -90,11 +92,28 @@ Matrix Matrix::Transpose(){
     return res;
 }
 
-bool LoadFromFile(char* _file){
-    return false;
+bool Matrix::LoadFromFile(string _file){
+    try{
+        cout << "Test" << endl;
+        
+        ifstream file;
+        string line;
+        file.open("csv/" + _file);
+
+        elements = {};
+
+        while (file >> line){
+            cout << line << endl;
+        }
+        return true;
+    }
+    catch (Exception& e){
+        cout << "Cannot read file: " << e.what() << endl;
+        return false;
+    }
 }
 
-bool SaveToFile(char* _file){
+bool Matrix::SaveToFile(string _file){
     return false;
 }
 
