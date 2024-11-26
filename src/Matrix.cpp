@@ -102,7 +102,7 @@ bool SaveToFile(char* _file){
 
 
 
-float VectorDot(vector<float> _v1, vector<float> _v2){
+float DotVector(vector<float> _v1, vector<float> _v2){
     float res = 0;
 
     for (int i = 0; i < (int)_v1.size(); i++){
@@ -112,18 +112,18 @@ float VectorDot(vector<float> _v1, vector<float> _v2){
     return res;
 }
 
-Matrix MatrixProduct(Matrix _m1, Matrix _m2){
+Matrix MultiplyMatrix(Matrix _m1, Matrix _m2){
     Matrix res = Matrix(_m1.rows, _m2.cols);
 
     for (int i = 0; i < _m1.rows; i++){
         for (int j = 0; j < _m2.cols; j++){
-            res.elements.at(i).at(j) = VectorDot(_m1.GetRow(i), _m2.GetColumn(j));
+            res.elements.at(i).at(j) = DotVector(_m1.GetRow(i), _m2.GetColumn(j));
         }
     }
     return res;
 }
 
-Matrix MatrixAdd(Matrix _m1, Matrix _m2){
+Matrix AddMatrix(Matrix _m1, Matrix _m2){
     try{
         if (_m1.rows != _m2.rows || _m1.cols != _m2.cols)
             throw Exception("Matrix size does not match.");
@@ -142,7 +142,7 @@ Matrix MatrixAdd(Matrix _m1, Matrix _m2){
     return Matrix(0, 0);
 }
 
-Matrix MatrixSubtract(Matrix _m1, Matrix _m2){
+Matrix SubtractMatrix(Matrix _m1, Matrix _m2){
     try{
         if (_m1.rows != _m2.rows || _m1.cols != _m2.cols)
             throw Exception("Matrix size does not match.");
@@ -161,7 +161,7 @@ Matrix MatrixSubtract(Matrix _m1, Matrix _m2){
     return Matrix(0, 0);
 }
 
-Matrix ScalarMultiply(float _s, Matrix _m){
+Matrix MultiplyByScalar(float _s, Matrix _m){
     Matrix res = Matrix(_m.rows, _m.cols);
     for (int i = 0; i < _m.rows; i++){
         for (int j = 0; j < _m.cols; j++){

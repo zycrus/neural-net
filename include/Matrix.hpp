@@ -29,10 +29,10 @@ public:
 
 //Operations
 float DotVector(vector<float> _v1, vector<float> _v2);
-Matrix MatrixProduct(Matrix _m1, Matrix _m2);
-Matrix MatrixAdd(Matrix _m1, Matrix _m2);
-Matrix MatrixSubtract(Matrix _m1, Matrix _m2);
-Matrix ScalarMultiply(float _s, Matrix _m);
+Matrix MultiplyMatrix(Matrix _m1, Matrix _m2);
+Matrix AddMatrix(Matrix _m1, Matrix _m2);
+Matrix SubtractMatrix(Matrix _m1, Matrix _m2);
+Matrix MultiplyByScalar(float _s, Matrix _m);
 
 
 #endif

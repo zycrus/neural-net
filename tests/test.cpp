@@ -18,7 +18,7 @@ int main(){
 
     cout << "SCALAR" << endl;
 
-    ScalarMultiply(0.3, mat1).PrintMatrix();
+    MultiplyByScalar(0.3, mat1).PrintMatrix();
 
     return 0;
 }
