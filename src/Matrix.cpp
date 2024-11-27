@@ -2,9 +2,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 
 
 Matrix::Matrix(int _row, int _col){
+    cout << "Initializing Matrix" << endl;
     rows = _row;
     cols = _col;
     
@@ -12,7 +14,7 @@ Matrix::Matrix(int _row, int _col){
         vector<float> temp;
         elements.insert(elements.end(), temp);
         for (int j = 0; j < cols; j++){
-            elements.at(i).insert(elements.at(i).end(), 0);
+            elements.back().insert(elements.back().end(), 0);
         }
     }
 }
@@ -93,28 +95,35 @@ Matrix Matrix::Transpose(){
 }
 
 bool Matrix::LoadFromFile(string _file){
+    rows = 0;
     try{
-        cout << "Test" << endl;
-        
         ifstream file;
         string line;
         file.open("csv/" + _file);
-
-        elements = {};
+        vector<float> temp;
 
         while (file >> line){
-            cout << line << endl;
+            cols = 0;
+            string val;
+
+            stringstream lineString(line);
+
+            elements.insert(elements.end(), temp);
+
+            while (getline(lineString, val, ',')){
+                elements.back().insert(elements.back().end(), stof(val));
+                cols++;
+            }
+            rows++;
         }
+        cout << "File Loaded." << endl;
+        file.close();
         return true;
     }
     catch (Exception& e){
         cout << "Cannot read file: " << e.what() << endl;
         return false;
     }
-}
-
-bool Matrix::SaveToFile(string _file){
-    return false;
 }
 
 

@@ -7,7 +7,7 @@
 using namespace std;
 
 int main(){
-    Matrix mat = Matrix(0,0);
-
+    Matrix mat = Matrix(0, 0);
     mat.LoadFromFile("test.csv");
+    mat.PrintMatrix();
 }
