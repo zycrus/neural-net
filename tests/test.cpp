@@ -3,11 +3,44 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
 int main(){
-    Matrix mat = Matrix(0, 0);
-    mat.LoadFromFile("test.csv");
-    mat.PrintMatrix();
+    // Matrix mat = Matrix(0, 0);
+    // mat.LoadFromFile("test.csv");
+    // mat.PrintMatrix();
+
+    int L = 4;
+    int dk = 8;
+    int dv = 8;
+    Matrix q = Matrix(0, 0);
+    Matrix k = Matrix(0, 0);
+    Matrix v = Matrix(0, 0);
+
+    q.RandomMatrix(L, dk);
+    k.RandomMatrix(L, dk);
+    v.RandomMatrix(L, dv);
+
+    cout << "\nQ:" << endl;
+    q.PrintMatrix();
+    cout << "\nK:" << endl;
+    k.PrintMatrix();
+    cout << "\nV:" << endl;
+    v.PrintMatrix();
+
+    cout << "\nMask(M):" << endl;
+    Matrix tmat = Matrix(L, L);
+    tmat.TriangularMatrix();
+    tmat.Replace(0, numeric_limits<float>::infinity());
+    tmat.Replace(1, 0);
+    tmat.PrintMatrix();
+
+    cout << "\nQk.T/sqrt(dk):" << endl;
+    MultiplyByScalar(1/sqrt(dk), MultiplyMatrix(q, k.Transpose())).PrintMatrix();
+
+    cout << "\nQk.T/sqrt(dk) + M:" << endl;
+    AddMatrix(MultiplyByScalar(1/sqrt(dk), MultiplyMatrix(q, k.Transpose())), tmat).PrintMatrix();
+
 }

@@ -3,10 +3,11 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <random>
 
 
 Matrix::Matrix(int _row, int _col){
-    cout << "Initializing Matrix" << endl;
+    // cout << "Initializing Matrix" << endl;
     rows = _row;
     cols = _col;
     
@@ -16,6 +17,38 @@ Matrix::Matrix(int _row, int _col){
         for (int j = 0; j < cols; j++){
             elements.back().insert(elements.back().end(), 0);
         }
+    }
+}
+
+bool Matrix::RandomMatrix(int _row, int _col){
+    try{
+        // Define the mean and standard deviation
+        double mean = 0.0;
+        double stddev = 1.0;
+
+        // Create a random device and seed the generator
+        std::random_device rd;
+        std::mt19937 gen(rd());
+
+        // Create a normal distribution with the specified mean and standard deviation
+        std::normal_distribution<> d(mean, stddev);
+
+        rows = _row;
+        cols = _col;
+        elements.clear();
+
+        for (int i = 0; i < rows; i++){
+            vector<float> temp;
+            elements.insert(elements.end(), temp);
+            for (int j = 0; j < cols; j++){
+                elements.back().insert(elements.back().end(), d(gen));
+            }
+        }
+        return true;
+    }
+    catch(exception& e){
+        cerr << "Error Generating Random Matrix: " << e.what() << endl;
+        return false;
     }
 }
 
@@ -31,7 +64,24 @@ bool Matrix::UnitMatrix(){
         return true;
     }
     catch (Exception& e){
-        cout << "Error Generating Unit Matrix: " << e.what() << endl;
+        cerr << "Error Generating Unit Matrix: " << e.what() << endl;
+        return false;
+    }
+}
+
+bool Matrix::TriangularMatrix(){
+    try{
+        if (rows != cols) throw Exception("Matrix is not a square matrix.");
+        for (int i = 0; i < rows; i++){
+            for (int j = 0; j < cols; j++){
+                if (i >= j) elements.at(i).at(j) = 1;
+                else elements.at(i).at(j) = 0;
+            }
+        }
+        return true;
+    }
+    catch (Exception& e){
+        cerr << "Error Generating Triangular Matrix: " << e.what() << endl;
         return false;
     }
 }
@@ -43,7 +93,22 @@ bool Matrix::SetElement(int _row, int _col, float _val){
         return true;
     }
     catch (Exception& e){
-        cout << "Error Editing Element: " << e.what() << endl;
+        cerr << "Error Editing Element: " << e.what() << endl;
+        return false;
+    }
+}
+
+bool Matrix::Replace(float _find, float _val){
+    try{
+        for (int i = 0; i < rows; i++){
+            for (int j = 0; j < cols; j++){
+                if (elements.at(i).at(j) == _find) elements.at(i).at(j) = _val;
+            }
+        }
+        return true;
+    }
+    catch(exception& e){
+        cerr << "Error Replacing Element: " << e.what() << endl;
         return false;
     }
 }
@@ -121,7 +186,7 @@ bool Matrix::LoadFromFile(string _file){
         return true;
     }
     catch (Exception& e){
-        cout << "Cannot read file: " << e.what() << endl;
+        cerr << "Cannot read file: " << e.what() << endl;
         return false;
     }
 }
@@ -165,7 +230,7 @@ Matrix AddMatrix(Matrix _m1, Matrix _m2){
         return res;
     }
     catch (Exception& e){
-        cout << "Cannot Add Matrices: " << e.what() << endl;
+        cerr << "Cannot Add Matrices: " << e.what() << endl;
     }
     return Matrix(0, 0);
 }
@@ -184,7 +249,7 @@ Matrix SubtractMatrix(Matrix _m1, Matrix _m2){
         return res;
     }
     catch (Exception& e){
-        cout << "Cannot Subtract Matrices: " << e.what() << endl;
+        cerr << "Cannot Subtract Matrices: " << e.what() << endl;
     }
     return Matrix(0, 0);
 }

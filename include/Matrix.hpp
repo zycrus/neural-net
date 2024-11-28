@@ -14,8 +14,11 @@ public:
     int rows, cols;
     
     Matrix(int _row, int _col);
+    bool RandomMatrix(int _row, int _col);
     bool UnitMatrix();
+    bool TriangularMatrix();
     bool SetElement(int _row, int _col, float _val);
+    bool Replace(float _find, float _val);
     vector<float> GetRow(int _row);
     vector<float> GetColumn(int _col);
     void PrintRow(int _row);
