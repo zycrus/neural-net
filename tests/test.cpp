@@ -31,16 +31,18 @@ int main(){
     v.PrintMatrix();
 
     cout << "\nMask(M):" << endl;
-    Matrix tmat = Matrix(L, L);
-    tmat.TriangularMatrix();
-    tmat.Replace(0, numeric_limits<float>::infinity());
-    tmat.Replace(1, 0);
-    tmat.PrintMatrix();
+    Matrix mask = Matrix(L, L);
+    mask.TriangularMatrix();
+    mask.Replace(0, numeric_limits<float>::infinity());
+    mask.Replace(1, 0);
+    mask.PrintMatrix();
 
     cout << "\nQk.T/sqrt(dk):" << endl;
-    MultiplyByScalar(1/sqrt(dk), MultiplyMatrix(q, k.Transpose())).PrintMatrix();
+    Matrix scaled = MultiplyByScalar(1/sqrt(dk), MultiplyMatrix(q, k.Transpose()));
+    scaled.PrintMatrix();
 
     cout << "\nQk.T/sqrt(dk) + M:" << endl;
-    AddMatrix(MultiplyByScalar(1/sqrt(dk), MultiplyMatrix(q, k.Transpose())), tmat).PrintMatrix();
+    AddMatrix(scaled, mask).PrintMatrix();
 
+    cout << "\nsoftmax:" << endl;
 }

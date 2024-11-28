@@ -263,3 +263,9 @@ Matrix MultiplyByScalar(float _s, Matrix _m){
     }
     return res;
 }
+
+Matrix Softmax(Matrix _m){
+    Matrix res = Matrix(_m.rows, _m.cols);
+
+    return res;
+}
