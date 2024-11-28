@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <random>
+#include <iomanip>
 
 
 Matrix::Matrix(int _row, int _col){
@@ -128,7 +129,7 @@ vector<float> Matrix::GetColumn(int _col){
 void Matrix::PrintRow(int _row){
     cout << "R" << _row << "\t";
     for (int i = 0; i < cols; i++){
-        cout << GetRow(_row).at(i) << "\t";
+        cout  << std::fixed << std::setprecision(10) << GetRow(_row).at(i) << "\t";
     }
 }
 
@@ -140,7 +141,7 @@ void Matrix::PrintColumn(int _col){
 
 void Matrix::PrintMatrix(){
     for (int i = 0; i < cols; i ++){
-        cout << "\tC" << i;
+        cout << "\tC" << i << "\t";
     }
     cout << endl;
     for (int i = 0; i < rows; i++){
@@ -264,8 +265,44 @@ Matrix MultiplyByScalar(float _s, Matrix _m){
     return res;
 }
 
-Matrix Softmax(Matrix _m){
-    Matrix res = Matrix(_m.rows, _m.cols);
+float MatrixSum(Matrix _m){
+    float res = 0;
+    for (int i = 0; i < _m.rows; i++){
+        for (int j = 0; j < _m.cols; j++){
+            res += _m.elements.at(i).at(j);
+        }
+    }
 
     return res;
+}
+
+Matrix Softmax(Matrix _m){
+    Matrix res = Matrix(_m.rows, _m.cols);
+    float sum = 0;
+    for (int i = 0; i < res.rows; i++){
+        for (int j = 0; j < res.cols; j++){
+            res.elements.at(i).at(j) = exp(_m.elements.at(i).at(j));
+            sum += res.elements.at(i).at(j);
+        }
+    }
+
+    for (int i = 0; i < res.rows; i++){
+        for (int j = 0; j < res.cols; j++){
+            res.elements.at(i).at(j) = exp(_m.elements.at(i).at(j))/sum;
+        }
+    }
+
+    return res;
+}
+
+Matrix Attention(int _L, int _dk, int _dv, Matrix _q, Matrix _k, Matrix _v){
+    Matrix mask = Matrix(_L, _L);
+    mask.TriangularMatrix();
+    mask.Replace(0, -numeric_limits<float>::infinity());
+    mask.Replace(1, 0);
+    Matrix scaled = MultiplyByScalar(1/sqrt(_dk), MultiplyMatrix(_q, _k.Transpose()));
+    Matrix masked = AddMatrix(scaled, mask);
+    Matrix attention = Softmax(masked);
+
+    return attention;
 }

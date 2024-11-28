@@ -30,20 +30,28 @@ int main(){
     cout << "\nV:" << endl;
     v.PrintMatrix();
 
-    cout << "\nMask(M):" << endl;
-    Matrix mask = Matrix(L, L);
-    mask.TriangularMatrix();
-    mask.Replace(0, numeric_limits<float>::infinity());
-    mask.Replace(1, 0);
-    mask.PrintMatrix();
+    // cout << "\nMask(M):" << endl;
+    // Matrix mask = Matrix(L, L);
+    // mask.TriangularMatrix();
+    // mask.Replace(0, -numeric_limits<float>::infinity());
+    // mask.Replace(1, 0);
+    // mask.PrintMatrix();
 
-    cout << "\nQk.T/sqrt(dk):" << endl;
-    Matrix scaled = MultiplyByScalar(1/sqrt(dk), MultiplyMatrix(q, k.Transpose()));
-    scaled.PrintMatrix();
+    // cout << "\nQk.T/sqrt(dk):" << endl;
+    // Matrix scaled = MultiplyByScalar(1/sqrt(dk), MultiplyMatrix(q, k.Transpose()));
+    // scaled.PrintMatrix();
 
-    cout << "\nQk.T/sqrt(dk) + M:" << endl;
-    Matrix masked = AddMatrix(scaled, mask);
-    masked.PrintMatrix();
+    // cout << "\nQk.T/sqrt(dk) + M:" << endl;
+    // Matrix masked = AddMatrix(scaled, mask);
+    // masked.PrintMatrix();
 
-    cout << "\nsoftmax:" << endl;
+    // cout << "\nsoftmax:" << endl;
+    // Matrix softmax = Softmax(scaled);
+
+    cout << "\nAttention:" << endl;
+    Matrix attention = Attention(L, dk, dv, q, k ,v);
+    attention.PrintMatrix();
+
+    cout << "\nNew V:" << endl;
+    MultiplyMatrix(attention, v).PrintMatrix();
 }

@@ -36,7 +36,9 @@ Matrix MultiplyMatrix(Matrix _m1, Matrix _m2);
 Matrix AddMatrix(Matrix _m1, Matrix _m2);
 Matrix SubtractMatrix(Matrix _m1, Matrix _m2);
 Matrix MultiplyByScalar(float _s, Matrix _m);
+float MatrixSum(Matrix _m);
 Matrix Softmax(Matrix _m);
+Matrix Attention(int _L, int _dk, int _dv, Matrix _q, Matrix _k, Matrix _v);
 
 
 #endif
