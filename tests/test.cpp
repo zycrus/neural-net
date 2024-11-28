@@ -42,7 +42,8 @@ int main(){
     scaled.PrintMatrix();
 
     cout << "\nQk.T/sqrt(dk) + M:" << endl;
-    AddMatrix(scaled, mask).PrintMatrix();
+    Matrix masked = AddMatrix(scaled, mask);
+    masked.PrintMatrix();
 
     cout << "\nsoftmax:" << endl;
 }
