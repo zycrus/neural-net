@@ -2,8 +2,8 @@ APPNAME = Test
 EXT = .cpp
 OBJECTS = objects
 
-output: check-dir $(OBJECTS)\test.o $(OBJECTS)\Matrix.o $(OBJECTS)\Except.o $(OBJECTS)\RNN.o
-	g++ -Wall $(OBJECTS)\test.o $(OBJECTS)\Except.o $(OBJECTS)\Matrix.o $(OBJECTS)\RNN.o -o tests\builds\test.exe
+output: check-dir $(OBJECTS)\test.o $(OBJECTS)\Matrix.o $(OBJECTS)\Except.o $(OBJECTS)\RNN.o $(OBJECTS)\Tensor.o
+	g++ -Wall $(OBJECTS)\test.o $(OBJECTS)\Except.o $(OBJECTS)\Matrix.o $(OBJECTS)\RNN.o $(OBJECTS)\Tensor.o -o tests\builds\test.exe
 
 $(OBJECTS)\test.o: tests\test.cpp
 	g++ -c tests\test.cpp -o $(OBJECTS)\test.o
@@ -16,6 +16,9 @@ $(OBJECTS)\Matrix.o: src\Matrix.cpp
 
 $(OBJECTS)\RNN.o: src\RNN.cpp
 	g++ -c src\RNN.cpp -o $(OBJECTS)\RNN.o
+
+$(OBJECTS)\Tensor.o: src\Tensor.cpp
+	g++ -c src\Tensor.cpp -o $(OBJECTS)\Tensor.o
 
 run:
 	.\tests\builds\test.exe

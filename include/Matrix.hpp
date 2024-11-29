@@ -1,7 +1,8 @@
+#pragma once
+
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
-#pragma once
 #include "../include/Except.hpp"
 #include <stdarg.h>
 #include <initializer_list>
