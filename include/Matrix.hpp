@@ -2,43 +2,38 @@
 #define MATRIX_HPP
 
 #pragma once
-#include <vector>
 #include "../include/Except.hpp"
+#include <stdarg.h>
+#include <initializer_list>
+#include <vector>
 
 using namespace std;
 
 
 class Matrix{
 public:
-    vector<vector<float>> elements;
-    int rows, cols;
+    vector<vector<double>> elements;
+    int x, y;
     
-    Matrix(int _row, int _col);
-    bool RandomMatrix(int _row, int _col);
-    bool UnitMatrix();
-    bool TriangularMatrix();
-    bool SetElement(int _row, int _col, float _val);
-    bool Replace(float _find, float _val);
-    vector<float> GetRow(int _row);
-    vector<float> GetColumn(int _col);
-    void PrintRow(int _row);
-    void PrintColumn(int _col);
-    void PrintMatrix();
+    Matrix(int _x, int _y);
+
+    void Triangle();
+    void Random();
+
+    void Replace(double _toReplace, double _val);
     Matrix Transpose();
 
-    bool LoadFromFile(string _file);
-    bool SaveToFile(string _file);
+    void Print(int _precision = 10);
 };
 
-//Operations
-float DotVector(vector<float> _v1, vector<float> _v2);
-Matrix MultiplyMatrix(Matrix _m1, Matrix _m2);
-Matrix AddMatrix(Matrix _m1, Matrix _m2);
-Matrix SubtractMatrix(Matrix _m1, Matrix _m2);
-Matrix MultiplyByScalar(float _s, Matrix _m);
-float MatrixSum(Matrix _m);
-Matrix Softmax(Matrix _m);
-Matrix Attention(int _L, int _dk, int _dv, Matrix _q, Matrix _k, Matrix _v);
+
+/*
+    MATRIX OPERATIONS
+*/
+Matrix AddMatrix(Matrix _m1, Matrix _v2);
+Matrix DotVector(vector<double> _v1, vector<double> _v2);
+Matrix MultiplyMatrix(Matrix _m1, Matrix _v2);
+Matrix MultiplyToScalar(Matrix _m, double _scalar);
 
 
 #endif

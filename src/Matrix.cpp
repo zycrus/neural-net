@@ -7,224 +7,88 @@
 #include <iomanip>
 
 
-Matrix::Matrix(int _row, int _col){
-    // cout << "Initializing Matrix" << endl;
-    rows = _row;
-    cols = _col;
-    
-    for (int i = 0; i < rows; i++){
-        vector<float> temp;
-        elements.insert(elements.end(), temp);
-        for (int j = 0; j < cols; j++){
-            elements.back().insert(elements.back().end(), 0);
+Matrix::Matrix(int _x, int _y):x(_x), y(_y){
+    for (int i = 0; i < x; i ++){
+        vector<double> temp2;
+        elements.insert(elements.end(), temp2);
+        for (int j = 0; j < y; j++){
+            elements.at(i).insert(elements.at(i).end(), 0);
         }
     }
 }
 
-bool Matrix::RandomMatrix(int _row, int _col){
-    try{
-        // Define the mean and standard deviation
-        double mean = 0.0;
-        double stddev = 1.0;
-
-        // Create a random device and seed the generator
-        std::random_device rd;
-        std::mt19937 gen(rd());
-
-        // Create a normal distribution with the specified mean and standard deviation
-        std::normal_distribution<> d(mean, stddev);
-
-        rows = _row;
-        cols = _col;
-        elements.clear();
-
-        for (int i = 0; i < rows; i++){
-            vector<float> temp;
-            elements.insert(elements.end(), temp);
-            for (int j = 0; j < cols; j++){
-                elements.back().insert(elements.back().end(), d(gen));
-            }
+void Matrix::Triangle(){
+    if (x != y) return;
+    for (int i = 0; i < x; i ++){
+        for(int j = 0; j < y; j++){
+            if (i < j) elements.at(i).at(j) = 0;
+            else elements.at(i).at(j) = 1;
         }
-        return true;
-    }
-    catch(exception& e){
-        cerr << "Error Generating Random Matrix: " << e.what() << endl;
-        return false;
     }
 }
 
-bool Matrix::UnitMatrix(){
-    try{
-        if (rows != cols) throw Exception("Matrix is not a square matrix.");
-        for (int i = 0; i < rows; i++){
-            for (int j = 0; j < cols; j++){
-                if (i == j) elements.at(i).at(j) = 1;
-                else elements.at(i).at(j) = 0;
-            }
+void Matrix::Replace(double _toReplace, double _val){
+    for (int i = 0; i < x; i ++){
+        for(int j = 0; j < y; j++){
+            if (elements.at(i).at(j) == _toReplace) elements.at(i).at(j) = _val;
         }
-        return true;
-    }
-    catch (Exception& e){
-        cerr << "Error Generating Unit Matrix: " << e.what() << endl;
-        return false;
-    }
-}
-
-bool Matrix::TriangularMatrix(){
-    try{
-        if (rows != cols) throw Exception("Matrix is not a square matrix.");
-        for (int i = 0; i < rows; i++){
-            for (int j = 0; j < cols; j++){
-                if (i >= j) elements.at(i).at(j) = 1;
-                else elements.at(i).at(j) = 0;
-            }
-        }
-        return true;
-    }
-    catch (Exception& e){
-        cerr << "Error Generating Triangular Matrix: " << e.what() << endl;
-        return false;
-    }
-}
-
-bool Matrix::SetElement(int _row, int _col, float _val){
-    try{
-        if (_row >= rows || _col >= cols) throw Exception("Specified Row and Column exceeds the Matrix size.");
-        elements.at(_row).at(_col) = _val;
-        return true;
-    }
-    catch (Exception& e){
-        cerr << "Error Editing Element: " << e.what() << endl;
-        return false;
-    }
-}
-
-bool Matrix::Replace(float _find, float _val){
-    try{
-        for (int i = 0; i < rows; i++){
-            for (int j = 0; j < cols; j++){
-                if (elements.at(i).at(j) == _find) elements.at(i).at(j) = _val;
-            }
-        }
-        return true;
-    }
-    catch(exception& e){
-        cerr << "Error Replacing Element: " << e.what() << endl;
-        return false;
-    }
-}
-
-vector<float> Matrix::GetRow(int _row){
-    return elements.at(_row);
-}
-
-vector<float> Matrix::GetColumn(int _col){
-    vector<float> res;
-    for (int i = 0; i < rows; i++){
-        res.insert(res.end(), elements.at(i).at(_col));
-    }
-    return res;
-}
-
-void Matrix::PrintRow(int _row){
-    cout << "R" << _row << "\t";
-    for (int i = 0; i < cols; i++){
-        cout  << std::fixed << std::setprecision(10) << GetRow(_row).at(i) << "\t";
-    }
-}
-
-void Matrix::PrintColumn(int _col){
-    for (int i = 0; i < rows; i++){
-        cout << GetColumn(_col).at(i) << "\t";
-    }
-}
-
-void Matrix::PrintMatrix(){
-    for (int i = 0; i < cols; i ++){
-        cout << "\tC" << i << "\t";
-    }
-    cout << endl;
-    for (int i = 0; i < rows; i++){
-        PrintRow(i);
-        cout << endl;
     }
 }
 
 Matrix Matrix::Transpose(){
-    Matrix res = Matrix(cols, rows);
-    for (int i = 0; i < rows; i++){
-        for (int j = 0; j < cols; j++){
+    Matrix res = Matrix(y, x);
+    for (int i = 0; i < x; i++){
+        for (int j = 0; j < y; j++){
             res.elements.at(j).at(i) = elements.at(i).at(j);
         }
     }
     return res;
 }
 
-bool Matrix::LoadFromFile(string _file){
-    rows = 0;
-    try{
-        ifstream file;
-        string line;
-        file.open("csv/" + _file);
-        vector<float> temp;
+void Matrix::Random(){
+    // Define the mean and standard deviation
+    double mean = 0.0;
+    double stddev = 1.0;
 
-        while (file >> line){
-            cols = 0;
-            string val;
+    // Create a random device and seed the generator
+    std::random_device rd;
+    std::mt19937 gen(rd());
 
-            stringstream lineString(line);
+    // Create a normal distribution with the specified mean and standard deviation
+    std::normal_distribution<> d(mean, stddev);
 
-            elements.insert(elements.end(), temp);
+    elements.clear();
 
-            while (getline(lineString, val, ',')){
-                elements.back().insert(elements.back().end(), stof(val));
-                cols++;
-            }
-            rows++;
-        }
-        cout << "File Loaded." << endl;
-        file.close();
-        return true;
-    }
-    catch (Exception& e){
-        cerr << "Cannot read file: " << e.what() << endl;
-        return false;
-    }
-}
-
-
-
-
-
-float DotVector(vector<float> _v1, vector<float> _v2){
-    float res = 0;
-
-    for (int i = 0; i < (int)_v1.size(); i++){
-        res += _v1[i] * _v2[i];
-    }
-
-    return res;
-}
-
-Matrix MultiplyMatrix(Matrix _m1, Matrix _m2){
-    Matrix res = Matrix(_m1.rows, _m2.cols);
-
-    for (int i = 0; i < _m1.rows; i++){
-        for (int j = 0; j < _m2.cols; j++){
-            res.elements.at(i).at(j) = DotVector(_m1.GetRow(i), _m2.GetColumn(j));
+    for (int i = 0; i < x; i++){
+        vector<double> temp;
+        elements.insert(elements.end(), temp);
+        for (int j = 0; j < y; j++){
+            elements.back().insert(elements.back().end(), d(gen));
         }
     }
-    return res;
 }
 
+void Matrix::Print(int _precision){
+    for (int i = 0; i < x; i ++){
+        for(int j = 0; j < y; j++){
+            cout  << std::fixed << std::setprecision(_precision) << elements.at(i).at(j) << "\t";
+        }
+        cout << endl;
+    }
+}
+
+
+/*
+    MATRIX OPERATIONS
+*/
 Matrix AddMatrix(Matrix _m1, Matrix _m2){
     try{
-        if (_m1.rows != _m2.rows || _m1.cols != _m2.cols)
+        if (_m1.x != _m2.x || _m1.y != _m2.y)
             throw Exception("Matrix size does not match.");
 
-        Matrix res = Matrix(_m1.rows, _m1.cols);
-        for (int i = 0; i < _m1.rows; i++){
-            for (int j = 0; j < _m1.cols; j++){
+        Matrix res = Matrix(_m1.x, _m1.y);
+        for (int i = 0; i < _m1.x; i++){
+            for (int j = 0; j < _m1.y; j++){
                 res.elements.at(i).at(j) =  _m1.elements.at(i).at(j) +  _m2.elements.at(i).at(j);
             }
         }
@@ -234,75 +98,4 @@ Matrix AddMatrix(Matrix _m1, Matrix _m2){
         cerr << "Cannot Add Matrices: " << e.what() << endl;
     }
     return Matrix(0, 0);
-}
-
-Matrix SubtractMatrix(Matrix _m1, Matrix _m2){
-    try{
-        if (_m1.rows != _m2.rows || _m1.cols != _m2.cols)
-            throw Exception("Matrix size does not match.");
-
-        Matrix res = Matrix(_m1.rows, _m1.cols);
-        for (int i = 0; i < _m1.rows; i++){
-            for (int j = 0; j < _m1.cols; j++){
-                res.elements.at(i).at(j) =  _m1.elements.at(i).at(j) -  _m2.elements.at(i).at(j);
-            }
-        }
-        return res;
-    }
-    catch (Exception& e){
-        cerr << "Cannot Subtract Matrices: " << e.what() << endl;
-    }
-    return Matrix(0, 0);
-}
-
-Matrix MultiplyByScalar(float _s, Matrix _m){
-    Matrix res = Matrix(_m.rows, _m.cols);
-    for (int i = 0; i < _m.rows; i++){
-        for (int j = 0; j < _m.cols; j++){
-            res.elements.at(i).at(j) =  _m.elements.at(i).at(j) * _s;
-        }
-    }
-    return res;
-}
-
-float MatrixSum(Matrix _m){
-    float res = 0;
-    for (int i = 0; i < _m.rows; i++){
-        for (int j = 0; j < _m.cols; j++){
-            res += _m.elements.at(i).at(j);
-        }
-    }
-
-    return res;
-}
-
-Matrix Softmax(Matrix _m){
-    Matrix res = Matrix(_m.rows, _m.cols);
-    float sum = 0;
-    for (int i = 0; i < res.rows; i++){
-        for (int j = 0; j < res.cols; j++){
-            res.elements.at(i).at(j) = exp(_m.elements.at(i).at(j));
-            sum += res.elements.at(i).at(j);
-        }
-    }
-
-    for (int i = 0; i < res.rows; i++){
-        for (int j = 0; j < res.cols; j++){
-            res.elements.at(i).at(j) = exp(_m.elements.at(i).at(j))/sum;
-        }
-    }
-
-    return res;
-}
-
-Matrix Attention(int _L, int _dk, int _dv, Matrix _q, Matrix _k, Matrix _v){
-    Matrix mask = Matrix(_L, _L);
-    mask.TriangularMatrix();
-    mask.Replace(0, -numeric_limits<float>::infinity());
-    mask.Replace(1, 0);
-    Matrix scaled = MultiplyByScalar(1/sqrt(_dk), MultiplyMatrix(_q, _k.Transpose()));
-    Matrix masked = AddMatrix(scaled, mask);
-    Matrix attention = Softmax(masked);
-
-    return attention;
 }
