@@ -64,10 +64,14 @@ int main(){
     MatrixXd k = random_matrix(l, dk);
     MatrixXd v = random_matrix(l, dv);
 
+    cout << "Q\n";
     cout << q << "\n\n";
+    cout << "K\n";
     cout << k << "\n\n";
+    cout << "V\n";
     cout << v << "\n\n";
 
+    cout << "Scaled Attention\n";
     MatrixXd attention = scaled_dot_product_attention(q, k, v, dk);
     
     cout << attention << "\n\n";
