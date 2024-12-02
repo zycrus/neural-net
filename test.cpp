@@ -7,8 +7,8 @@
 using namespace std;
 using namespace Eigen;
 
-Eigen::MatrixXd positional_encoding(int max_len, int d_model) {
-    Eigen::MatrixXd pos_enc(max_len, d_model);
+MatrixXd positional_encoding(int max_len, int d_model) {
+    MatrixXd pos_enc(max_len, d_model);
     for (int pos = 0; pos < max_len; pos++) {
         for (int i = 0; i < d_model; i += 2) {
             pos_enc(pos, i) = std::sin(pos / std::pow(10000.0, (2 * i) / d_model));
@@ -20,18 +20,18 @@ Eigen::MatrixXd positional_encoding(int max_len, int d_model) {
     return pos_enc;
 }
 
-Eigen::MatrixXd softmax(const Eigen::MatrixXd &x) {
-    Eigen::MatrixXd exp_x = x.array().exp();
+MatrixXd softmax(const MatrixXd &x) {
+    MatrixXd exp_x = x.array().exp();
     return exp_x.array().colwise() / exp_x.rowwise().sum().array();
 }
 
-Eigen::MatrixXd scaled_dot_product_attention(const Eigen::MatrixXd &Q, const Eigen::MatrixXd &K, const Eigen::MatrixXd &V, double scale_factor) {
-    Eigen::MatrixXd scores = (Q * K.transpose()) / std::sqrt(scale_factor);
-    Eigen::MatrixXd attention_weights = softmax(scores);
+MatrixXd scaled_dot_product_attention(const MatrixXd &Q, const MatrixXd &K, const MatrixXd &V, double scale_factor) {
+    MatrixXd scores = (Q * K.transpose()) / std::sqrt(scale_factor);
+    MatrixXd attention_weights = softmax(scores);
     return attention_weights * V;
 }
 
-Eigen::MatrixXd random_matrix(int rows, int cols) {
+MatrixXd random_matrix(int rows, int cols) {
     // Initialize random number generator with a random seed
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -40,7 +40,7 @@ Eigen::MatrixXd random_matrix(int rows, int cols) {
     std::normal_distribution<> dist(0.0, 1.0);
     
     // Create a matrix of given size
-    Eigen::MatrixXd matrix(rows, cols);
+    MatrixXd matrix(rows, cols);
     
     // Fill the matrix with random numbers
     for (int i = 0; i < rows; ++i) {
