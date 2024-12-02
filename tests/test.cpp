@@ -13,7 +13,10 @@ int main(){
     // Matrix mat = Matrix(5, 5);
     // mat.Random();
     // mat.Print();
-    Tensor t = Tensor(3, {1, 2, 3});
-    cout << t;
+    Tensor t1 = Tensor(3, {1, 2, 3});
+    Tensor t2 = Tensor(3, {3, 4, 5});
+    cout << t1.toString() << endl;
+    cout << t2.toString() << endl;
+    cout << (t1 / t2).toString() << endl;
     return 0;
 }

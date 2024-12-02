@@ -14,9 +14,12 @@ public:
     vector<double> data;
 
     Tensor(int _size = 1, vector<double> _data = vector<double>());
-    operator string () const;
+    string toString();
 };
 
 Tensor operator+(Tensor const& _t1, Tensor const& _t2);
+Tensor operator-(Tensor const& _t1, Tensor const& _t2);
+Tensor operator*(Tensor const& _t1, Tensor const& _t2);
+Tensor operator/(Tensor const& _t1, Tensor const& _t2);
 
 #endif
