@@ -5,6 +5,10 @@
 #include <vector>
 #include <random>
 #include <memory>
+#include <omp.h>
+
+
+#include <chrono>
 
 using namespace std;
 using namespace Fastor;
@@ -159,15 +163,16 @@ public:
         output.zeros();
 
         // Matrix multiplication between input and weights
-
+        #pragma omp parallel for collapse(3) schedule(static)
         for (size_t b = 0; b < batch_size; b++) {
             for (size_t s = 0; s < sequence_length; s++) {
                 for (size_t i = 0; i < out; i++) {
+                    float temp = bias[i];  // Initialize with bias to avoid extra addition
+                    #pragma omp simd
                     for (size_t j = 0; j < in; j++) {
-                        output(b, s, i) += weights[i][j] * input(b, s, j);
+                        temp += weights[i][j] * input(b, s, j);
                     }
-                    // Add the bias
-                    output(b, s, i) += bias[i];
+                    output(b, s, i) = temp;
                 }
             }
         }
@@ -175,6 +180,38 @@ public:
         return output;
     }
 };
+
+
+template<size_t ... Rest>
+constexpr size_t get_dim(const Tensor<float, Rest...>& tensor, size_t dim) {
+    return tensor.dimension(dim);
+}
+
+// General chunking function for any rank of tensor
+template<size_t FirstDim, size_t... Rest>
+vector<Tensor<float, FirstDim / 2, Rest...>> chunk_tensor(const Tensor<float, FirstDim, Rest...>& tensor, int num_chunks) {
+    // Calculate the size of each chunk along the first dimension
+    size_t chunk_size = FirstDim / num_chunks;
+    size_t remainder = FirstDim % num_chunks;
+
+    // Store chunks
+    vector<Tensor<float, chunk_size, Rest...>> chunks;
+
+    // Slice along the first dimension while keeping other dimensions intact
+    for (int i = 0; i < num_chunks; ++i) {
+        if (i == num_chunks - 1 && remainder != 0) {
+            // Last chunk with remainder handling
+            Tensor<float, chunk_size + remainder, Rest...> chunk = tensor(range(i * chunk_size, FirstDim), All...);
+            chunks.push_back(chunk);
+        } else {
+            // Regular chunk
+            Tensor<float, chunk_size, Rest...> chunk = tensor(range(i * chunk_size, (i + 1) * chunk_size), All...);
+            chunks.push_back(chunk);
+        }
+    }
+    return chunks;
+}
+
 
 
 // void test1() {
@@ -204,12 +241,39 @@ void test2() {
 
     cout << qkv.dimension(0) << " " << qkv.dimension(1) << " " << qkv.dimension(2) << endl;
 
+    const int num_heads = 8;
+    const int head_dim = d_model / num_heads;
+    Tensor<float, batch_size, sequence_length, num_heads, 3 * head_dim> qkv_reshaped = reshape<batch_size, sequence_length, num_heads, 3 * head_dim>(qkv);
+
+    cout << qkv_reshaped.dimension(0) << " " << qkv_reshaped.dimension(1) << " " << qkv_reshaped.dimension(2) << " " << qkv_reshaped.dimension(3) << endl;
+
+    Tensor<float, batch_size, num_heads, sequence_length, 3 * head_dim> qkv_permuted = permute<Index<0, 2, 1, 3>>(qkv_reshaped);
+
+    cout << qkv_permuted.dimension(0) << " " << qkv_permuted.dimension(1) << " " << qkv_permuted.dimension(2) << " " << qkv_permuted.dimension(3) << endl;
+
+    // vector<Tensor<float, batch_size, num_heads, sequence_length, head_dim>> = chunk<float, batch_size, num_heads, sequence_length, head_dim>(qkv_permuted, 3, 3);
+
+
+
     // cout << mask << endl;
 }
 
 
 int main(){
+
+    auto start = chrono::high_resolution_clock::now();
+
+    // Call the function or block of code whose runtime you want to measure
     test2();
+
+    // Get the end point of the timer
+    auto end = chrono::high_resolution_clock::now();
+
+    // Calculate the duration (end - start) in milliseconds
+    chrono::duration<double, std::milli> duration = end - start;
+
+    // Print the runtime in milliseconds
+    cout << "Execution time: " << duration.count() << " ms" << endl;
 
     return 0;
 }
