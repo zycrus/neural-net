@@ -182,35 +182,35 @@ public:
 };
 
 
-template<size_t ... Rest>
-constexpr size_t get_dim(const Tensor<float, Rest...>& tensor, size_t dim) {
-    return tensor.dimension(dim);
-}
+// template<size_t ... Rest>
+// constexpr size_t get_dim(const Tensor<float, Rest...>& tensor, size_t dim) {
+//     return tensor.dimension(dim);
+// }
 
-// General chunking function for any rank of tensor
-template<size_t FirstDim, size_t... Rest>
-vector<Tensor<float, FirstDim / 2, Rest...>> chunk_tensor(const Tensor<float, FirstDim, Rest...>& tensor, int num_chunks) {
-    // Calculate the size of each chunk along the first dimension
-    size_t chunk_size = FirstDim / num_chunks;
-    size_t remainder = FirstDim % num_chunks;
+// // General chunking function for any rank of tensor
+// template<size_t FirstDim, size_t... Rest>
+// vector<Tensor<float, FirstDim / 2, Rest...>> chunk_tensor(const Tensor<float, FirstDim, Rest...>& tensor, int num_chunks) {
+//     // Calculate the size of each chunk along the first dimension
+//     size_t chunk_size = FirstDim / num_chunks;
+//     size_t remainder = FirstDim % num_chunks;
 
-    // Store chunks
-    vector<Tensor<float, chunk_size, Rest...>> chunks;
+//     // Store chunks
+//     vector<Tensor<float, chunk_size, Rest...>> chunks;
 
-    // Slice along the first dimension while keeping other dimensions intact
-    for (int i = 0; i < num_chunks; ++i) {
-        if (i == num_chunks - 1 && remainder != 0) {
-            // Last chunk with remainder handling
-            Tensor<float, chunk_size + remainder, Rest...> chunk = tensor(range(i * chunk_size, FirstDim), All...);
-            chunks.push_back(chunk);
-        } else {
-            // Regular chunk
-            Tensor<float, chunk_size, Rest...> chunk = tensor(range(i * chunk_size, (i + 1) * chunk_size), All...);
-            chunks.push_back(chunk);
-        }
-    }
-    return chunks;
-}
+//     // Slice along the first dimension while keeping other dimensions intact
+//     for (int i = 0; i < num_chunks; ++i) {
+//         if (i == num_chunks - 1 && remainder != 0) {
+//             // Last chunk with remainder handling
+//             Tensor<float, chunk_size + remainder, Rest...> chunk = tensor(range(i * chunk_size, FirstDim), All...);
+//             chunks.push_back(chunk);
+//         } else {
+//             // Regular chunk
+//             Tensor<float, chunk_size, Rest...> chunk = tensor(range(i * chunk_size, (i + 1) * chunk_size), All...);
+//             chunks.push_back(chunk);
+//         }
+//     }
+//     return chunks;
+// }
 
 
 
