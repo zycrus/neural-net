@@ -2,42 +2,50 @@
 
 using namespace std;
 
-template<typename T, size_t x, size_t y>
-vector<vector<T>> Tensor::generate_random() {
-    static thread_local mt19937 gen{random_device{}()};
-    normal_distribution<T> d(0.0, 1.0);  // Specify mean and stddev
+Tensor(vector<int> shape): shape(shape){}
 
-    vector<vector<T>> random_matrix(x, vector<T>(y));
+template<typename T>
+Tensor<T> Tensor<T>::generate_random(vector<int> _shape) {
+    Tensor tensor(_shape);
 
-    // Genrate and insert random value from the normal distribution to the matrix
-    for (int i = 0; i < x; i++) {
-        for (int j = 0; j < y; j++) {
-            random_matrix[i][j] = d(gen);
-        }
-    }
-
-    return random_matrix;
+    return tensor;
 }
 
-// template<typename T, size_t x, size_t y, size_t z>
+// vector<vector<T>> Tensor::generate_random() {
+//     static thread_local mt19937 gen{random_device{}()};
+//     normal_distribution<T> d(0.0, 1.0);  // Specify mean and stddev
+
+//     vector<vector<T>> random_matrix(x, vector<T>(y));
+
+//     // Genrate and insert random value from the normal distribution to the matrix
+//     for (int i = 0; i < x; i++) {
+//         for (int j = 0; j < y; j++) {
+//             random_matrix[i][j] = d(gen);
+//         }
+//     }
+
+//     return random_matrix;
+// }
+
+// template<typename T>
 // vector<vector<vector<T>>> Tensor::generate_random() {
 // 	vector<vector<vector<T>>> random_tensor(x, vector<vector<T>>(y, vector<T>(z)));
 
 //     // Generate and insert random value from the normal distribution to the matrix
 //     for (int i = 0; i < x; i++) {
-//         random_tensor[i] = generate_random<T, y, z>();
+//         random_tensor[i] = generate_random<T, dims[0], z>();
 //     }
 
 //     return random_tensor;
 // }
 
-// template<typename T, size_t batch_size, size_t height, size_t width, size_t color>
+// template<typename T>
 // vector<vector<vector<vector<T>>>> Tensor::generate_random() {
-// 	vector<vector<vector<vector<T>>>> random_tensor(batch_size, vector<vector<vector<T>>>(height, vector<vector<T>>(width, vector<T>(color))));
+// 	vector<vector<vector<vector<T>>>> random_tensor(dims[0], vector<vector<vector<T>>>(dims[1], vector<vector<T>>(dims[2], vector<T>(dims[3]))));
 
 //     // Generate and insert random value from the normal distribution to the matrix
-//     for (int i = 0; i < batch_size; i++) {
-//         random_tensor[i] = generate_random<T, height, width, color>();
+//     for (int i = 0; i < dims[0]; i++) {
+//         random_tensor[i] = generate_random<T>();
 //     }
 
 //     return random_tensor;

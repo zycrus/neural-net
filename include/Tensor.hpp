@@ -7,15 +7,21 @@
 #include <random>
 #include <iomanip>
 
-struct Tensor
-{
-	template<typename T, size_t x, size_t y>
-	std::vector<std::vector<T>> generate_random();
+using namespace std;
 
-	// template<typename T, size_t x, size_t y, size_t z>
+template<typename T>
+class Tensor
+{
+public:
+	vector<T> data;
+	vector<int> shape;
+
+	Tensor(vector<int> shape): shape(shape);
+
+	Tensor generate_random(vector<int> _shape);
+
 	// std::vector<std::vector<std::vector<T>>> generate_random();
 
-	// template<typename T, size_t batch_size, size_t height, size_t width, size_t color>
 	// std::vector<std::vector<std::vector<std::vector<T>>>> generate_random();
 
 	// template<typename T>

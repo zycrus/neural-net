@@ -2,8 +2,8 @@ APPNAME = Test
 EXT = .cpp
 OBJECTS = objects
 
-output: check-dir $(OBJECTS)/test2_vectors.o $(OBJECTS)/Tensor.o
-	g++ -Wall $(OBJECTS)/Tensor.o $(OBJECTS)/test2_vectors.o -o tests/builds/test.exe
+output: check-dir $(OBJECTS)/test2_vectors.o
+	g++ -Wall $(OBJECTS)/test2_vectors.o -o tests/builds/test.exe
 
 $(OBJECTS)/test2_vectors.o: test2_vectors.cpp
 	g++ -Iinclude/ -c test2_vectors.cpp -o $(OBJECTS)/test2_vectors.o
